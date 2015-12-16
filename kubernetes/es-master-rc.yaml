@@ -1,0 +1,35 @@
+apiVersion: "v1"
+kind: "ReplicationController"
+metadata:
+  name: "elasticsearch-master"
+  labels:
+    component: "elasticsearch"
+    type: "master"
+spec:
+  replicas: 1
+  selector:
+    component: "elasticsearch"
+    type: "master"
+  template:
+    metadata:
+      labels:
+        component: "elasticsearch"
+        type: "master"
+    spec:
+      serviceAccount: elasticsearch
+      serviceAccountName: elasticsearch
+      containers:
+        - env:
+            - name: "SERVICE"
+              value: "elasticsearch-masters"
+            - name: "KUBERNETES_NAMESPACE"
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.namespace"
+            - name: "NODE_DATA"
+              value: "false"
+          image: "caicloud/elasticsearch:2.1.0"
+          name: "elasticsearch"
+          ports:
+            - containerPort: 9300
+              name: "transport"
