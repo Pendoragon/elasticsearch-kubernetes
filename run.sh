@@ -1,10 +1,9 @@
 #!/bin/sh
 
 # provision elasticsearch user
-addgroup sudo
-adduser -D -g '' elasticsearch
 adduser elasticsearch sudo
-chown -R elasticsearch /elasticsearch /data
+chsh -s /bin/bash elasticsearch
+chown -R elasticsearch /usr/share/elasticsearch/
 echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # set environment
@@ -22,4 +21,4 @@ export SERVICE=${SERVICE:-elasticsearch-discovery}
 # ulimit -l unlimited
 
 # run
-sudo -E -u elasticsearch elasticsearch
+exec su elasticsearch -c "/usr/share/elasticsearch/bin/elasticsearch"
