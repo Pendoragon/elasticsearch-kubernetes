@@ -21,8 +21,9 @@ def main():
   time_unit = os.getenv('CURATOR_TIME_UNIT', "days")
   newer_than = os.getenv('CURATOR_NEWER_THAN', "7")
   schedule_unit = os.getenv('SCHEDULE_UNIT', "day")
+  host_addr = os.getenv("HOST_ADDR", "localhost")
 
-  cmd = "curator --host=localhost delete indices --newer-than %s --time-unit %s --timestring %%Y/%%m/%%d" % (newer_than, time_unit)
+  cmd = "curator --host=%s delete indices --newer-than %s --time-unit %s --timestring %%Y/%%m/%%d" % (host_addr, newer_than, time_unit)
   crontab = "schedule.every().%s.do(job, cmd)" % schedule_unit
 
   eval(crontab)
