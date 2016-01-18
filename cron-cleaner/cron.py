@@ -28,9 +28,9 @@ def main():
   crontab = "schedule.%s.do(job, cmd)" % schedule_interval
 
   eval(crontab)
-  while 1:
+  while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(60 * 60)
 
 if __name__ == "__main__":
   main()
